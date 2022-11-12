@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,23 +24,27 @@ import com.reddog.worldcup2022.model.Category;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends ListFragment {
-    ArrayList<BangDau> arrayBangDau;
-    BangDauAdapter BDadapter;
-    private View view;
+public class HomeFragment extends Fragment{
+
+    private ArrayList<BangDau> arrayBangDau;
+    private BangDauAdapter BDadapter;
     private Spinner spnCategory;
     private CategoryAdapter categoryAdapter;
+    private LinearLayout lContent;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_home, container, false);
-        anhxa();
-        BDadapter = new BangDauAdapter(getActivity(), R.layout.row_bang_dau, arrayBangDau);
-        setListAdapter(BDadapter);
-        spnCategory = view.findViewById(R.id.snp_category);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        anhxa(view);
+
+        setTable(inflater);
+
+        //spiner
         categoryAdapter = new CategoryAdapter(getActivity(), R.layout.item_selected, getListCategory());
         spnCategory.setAdapter(categoryAdapter);
+
         spnCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -49,7 +56,26 @@ public class HomeFragment extends ListFragment {
 
             }
         });
+
         return view;
+    }
+
+    private void setTable(LayoutInflater inflater) {
+        for (int i=1; i<=8; i++) {
+            //create table layout
+            TableLayout tableLayout = (TableLayout) inflater.inflate(R.layout.item_table_layout, lContent, false);
+
+            for (int j=1; j<=4; j++) {
+                //create table row
+                TableRow tableRow = (TableRow) inflater.inflate(R.layout.item_table_row, tableLayout, false);
+
+                //add table row to table layout
+                tableLayout.addView(tableRow);
+            }
+
+            //add table layout to lContent
+            lContent.addView(tableLayout);
+        }
     }
 
     private List<Category> getListCategory(){
@@ -58,11 +84,18 @@ public class HomeFragment extends ListFragment {
         list.add(new Category("Bảng B"));
         list.add(new Category("Bảng C"));
         list.add(new Category("Bảng D"));
+        list.add(new Category("Bảng E"));
+        list.add(new Category("Bảng F"));
+        list.add(new Category("Bảng G"));
+        list.add(new Category("Bảng H"));
 
         return list;
     }
 
-    private void anhxa(){
+    private void anhxa(View view){
+        lContent = view.findViewById(R.id.contentLayout);
+        spnCategory = view.findViewById(R.id.snp_category);
+
         arrayBangDau = new ArrayList<>();
         arrayBangDau.add(new BangDau("1", "Qatar", R.drawable.qatar));
         arrayBangDau.add(new BangDau("2", "Ecuador", R.drawable.ecuador));

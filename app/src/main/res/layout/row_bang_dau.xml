@@ -26,10 +26,11 @@
 
             <ImageView
                 android:id="@+id/imgQuocGia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="30dp"
-                android:background="@drawable/qatar" />
+                android:scaleType="fitXY"
+                android:src="@drawable/qatar"/>
 
             <TextView
                 android:id="@+id/nameQuocGia"
@@ -95,15 +96,13 @@
             android:id="@+id/thang"/>
 
         <TextView
+            android:id="@+id/DD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
-            android:textColor="@color/white"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/thang"
             android:layout_marginRight="30dp"
-            android:id="@+id/DD"/>
-
+            android:layout_toStartOf="@id/thang"
+            android:text="0"
+            android:textColor="@color/white"/>
     </RelativeLayout>
-
 </RelativeLayout>
