@@ -8,6 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="gray">#f2f2f2</color>
-    <color name="maincolor">#7F1431</color>
+    <color name="gray">#f8f8f8</color>
+    <color name="dark_scarlet">#56042C</color>
+    <color name="mikado_yellow">#FEC310</color>
+    <color name="picton_blue">#49BCE3</color>
+    <color name="ocean_boat_blue">#1077C3</color>
 </resources>

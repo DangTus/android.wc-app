@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.reddog.worldcup2022.fragment.HomeFragment;
-import com.reddog.worldcup2022.fragment.SettingFragment;
+import com.reddog.worldcup2022.fragment.KnockoutFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
@@ -21,7 +21,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
             case 0:
                 return new HomeFragment();
             case 1:
-                return new SettingFragment();
+                return new KnockoutFragment();
 
             default:
                 return new HomeFragment();

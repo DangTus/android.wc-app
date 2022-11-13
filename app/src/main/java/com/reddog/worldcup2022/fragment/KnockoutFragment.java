@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import com.reddog.worldcup2022.R;
 
-public class SettingFragment extends Fragment {
+public class KnockoutFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+        return inflater.inflate(R.layout.fragment_knockout, container, false);
     }
 }
