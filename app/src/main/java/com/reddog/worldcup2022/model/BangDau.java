@@ -2,7 +2,7 @@ package com.reddog.worldcup2022.model;
 
 import java.io.Serializable;
 
-public class BangDau implements Serializable {
+public class BangDau {
     private String id;
     private String ten_quoc_gia;
     private int hinh_anh;
