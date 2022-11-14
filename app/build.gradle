@@ -36,6 +36,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
+    //thu vien lam tron anh
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //thu vien json
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    //thu vien lay anh tu internet
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
 }
