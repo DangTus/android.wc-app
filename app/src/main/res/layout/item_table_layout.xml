@@ -2,7 +2,7 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/tbRow"
+    android:id="@+id/tbLayout"
     android:stretchColumns="1"
     android:background="@drawable/bg_main"
     android:layout_marginBottom="32dp"
@@ -23,7 +23,6 @@
 
         <TextView
             android:text="Đội"
-            android:textAlignment="center"
             android:layout_marginRight="8dp"
             android:layout_span="2"
             android:textSize="18sp"
@@ -61,6 +60,7 @@
 
         <TextView
             android:text="Đ"
+            android:textStyle="bold"
             android:textSize="18sp"
             android:textColor="@color/white"/>
     </TableRow>

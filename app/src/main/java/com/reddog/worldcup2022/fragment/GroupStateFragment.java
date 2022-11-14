@@ -24,10 +24,7 @@ import java.util.List;
 
 public class GroupStateFragment extends Fragment {
 
-    private ArrayList<BangDau> arrayBangDau;
-    private Spinner spnCategory;
-    private CategoryAdapter categoryAdapter;
-    private LinearLayout lContent;
+    private LinearLayout lContent, lContentTranDau;
 
     @Nullable
     @Override
@@ -38,27 +35,11 @@ public class GroupStateFragment extends Fragment {
 
         setTable(inflater);
 
-        //spiner
-        categoryAdapter = new CategoryAdapter(getActivity(), R.layout.item_selected, getListCategory());
-        spnCategory.setAdapter(categoryAdapter);
-
-        spnCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
         return view;
     }
 
     private void setTable(LayoutInflater inflater) {
-        for (int i=1; i<=8; i++) {
+        for (int i=1; i<2; i++) {
             //create table layout
             TableLayout tableLayout = (TableLayout) inflater.inflate(R.layout.item_table_layout, lContent, false);
 
@@ -75,22 +56,8 @@ public class GroupStateFragment extends Fragment {
         }
     }
 
-    private List<Category> getListCategory(){
-        List<Category> list = new ArrayList<>();
-        list.add(new Category("Bảng A"));
-        list.add(new Category("Bảng B"));
-        list.add(new Category("Bảng C"));
-        list.add(new Category("Bảng D"));
-        list.add(new Category("Bảng E"));
-        list.add(new Category("Bảng F"));
-        list.add(new Category("Bảng G"));
-        list.add(new Category("Bảng H"));
-
-        return list;
-    }
-
     private void anhxa(View view){
         lContent = view.findViewById(R.id.contentLayout);
-        spnCategory = view.findViewById(R.id.snp_category);
+
     }
 }
