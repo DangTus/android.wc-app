@@ -13,122 +13,120 @@
         android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/list_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_bangA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bảng A"
-                android:onClick="changeGroup"
-                android:layout_margin="8dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_main"/>
-            <Button
-                android:id="@+id/btn_bangB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bảng B"
-                android:onClick="changeGroup"
-                android:layout_margin="8dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_main"/>
-            <Button
-                android:id="@+id/btn_bangC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bảng C"
-                android:onClick="changeGroup"
-                android:layout_margin="8dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_main"/>
-            <Button
-                android:id="@+id/btn_bangD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bảng D"
-                android:onClick="changeGroup"
-                android:layout_margin="8dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_main"/>
-            <Button
-                android:id="@+id/btn_bangE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bảng E"
-                android:onClick="changeGroup"
-                android:layout_margin="8dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_main"/>
-            <Button
-                android:id="@+id/btn_bangF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bảng F"
-                android:onClick="changeGroup"
-                android:layout_margin="8dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_main"/>
-            <Button
-                android:id="@+id/btn_bangG"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bảng G"
-                android:onClick="changeGroup"
-                android:layout_margin="8dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_main"/>
-            <Button
-                android:id="@+id/btn_bangH"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bảng H"
-                android:onClick="changeGroup"
-                android:layout_margin="8dp"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_main"/>
-
-        </LinearLayout>
+            android:orientation="horizontal"
+            android:padding="13dp"/>
     </HorizontalScrollView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bảng xếp hạng"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_margin="20dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="16dp">
 
         <LinearLayout
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bảng xếp hạng"
+                android:textColor="@color/ocean_boat_blue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+
+            <TableLayout
+                android:id="@+id/bxh_tblayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1"
+                android:background="@drawable/bg_main"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp">
+
+                <TableRow
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:text="TT"
+                        android:layout_marginRight="8dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:text="Đội"
+                        android:layout_marginRight="8dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_marginLeft="8dp"/>
+
+                    <TextView
+                        android:text="ĐĐ"
+                        android:layout_marginRight="8dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:text="T"
+                        android:layout_marginRight="8dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:text="H"
+                        android:layout_marginRight="8dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:text="B"
+                        android:layout_marginRight="8dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:text="HS"
+                        android:layout_marginRight="8dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:text="Đ"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Các trận đấu"
+                android:textColor="@color/ocean_boat_blue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"/>
         </LinearLayout>
 
     </ScrollView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Các trận đấu của bảng A"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_margin="20dp"/>
-
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_margin="20dp"
-        android:layout_height="wrap_content" />
-
-
 </LinearLayout>

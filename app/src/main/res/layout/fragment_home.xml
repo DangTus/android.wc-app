@@ -13,4 +13,10 @@
         android:textColor="@color/picton_blue"
         android:textStyle="bold"
         android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/qatar"
+        android:id="@+id/hinh"/>
 </RelativeLayout>
