@@ -109,9 +109,8 @@ public class GroupStateFragment extends Fragment {
 
                         //create table row
                         TableRow tableRow = (TableRow) inflater.inflate(R.layout.item_table_row, tblBXH, false);
-                        tbRowTeam tbTeam = new tbRowTeam();
-                        tbTeam.setDataTbRow(object, tableRow);
-
+                        //set data table row
+                        tableRow = setDataTableRow(tableRow, object);
                         //add table row to table layout
                         tblBXH.addView(tableRow);
                     }
@@ -128,36 +127,29 @@ public class GroupStateFragment extends Fragment {
         tblBXH = view.findViewById(R.id.bxh_tblayout);
     }
 
-    class tbRowTeam {
-        TextView teamPosition, teamName, teamPlayed, teamWon, teamDrawn, teamLost, teamGoalDiffience, teamPoints;
-        ImageView teamImage;
+    private TableRow setDataTableRow(TableRow tableRow, JSONObject object) throws JSONException {
+        //anh xa
+        TextView teamPosition = tableRow.findViewById(R.id.position);
+        ImageView teamImage = tableRow.findViewById(R.id.image);
+        TextView teamName = tableRow.findViewById(R.id.name);
+        TextView teamPlayed = tableRow.findViewById(R.id.played);
+        TextView teamWon = tableRow.findViewById(R.id.won);
+        TextView teamDrawn = tableRow.findViewById(R.id.drawn);
+        TextView teamLost = tableRow.findViewById(R.id.lost);
+        TextView teamGoalDiffience = tableRow.findViewById(R.id.goal_diffience);
+        TextView teamPoints = tableRow.findViewById(R.id.points);
 
-        TableRow anhXa(TableRow tableRow) {
-            teamPosition = tableRow.findViewById(R.id.position);
-            teamImage = tableRow.findViewById(R.id.image);
-            teamName = tableRow.findViewById(R.id.name);
-            teamPlayed = tableRow.findViewById(R.id.played);
-            teamWon = tableRow.findViewById(R.id.won);
-            teamDrawn = tableRow.findViewById(R.id.drawn);
-            teamLost = tableRow.findViewById(R.id.lost);
-            teamGoalDiffience = tableRow.findViewById(R.id.goal_diffience);
-            teamPoints = tableRow.findViewById(R.id.points);
+        //setData
+        teamPosition.setText(object.getString("position"));
+        teamName.setText(object.getString("name"));
+        Glide.with(getActivity()).load("https:" + object.getString("image")).into(teamImage);
+        teamPlayed.setText(object.getString("played"));
+        teamWon.setText(object.getString("won"));
+        teamDrawn.setText(object.getString("drawn"));
+        teamLost.setText(object.getString("lost"));
+        teamGoalDiffience.setText(object.getString("goal_difference"));
+        teamPoints.setText(object.getString("points"));
 
-            return tableRow;
-        }
-
-        TableRow setDataTbRow(JSONObject object, TableRow tbRow) {
-            tbRow = anhXa(tbRow);
-
-            try {
-                teamName.setText(object.getString("name"));
-                Glide.with(getActivity()).load("https:" + object.getString("image")).into(teamImage);
-                Toast.makeText(getActivity(), object.getString("image"), Toast.LENGTH_SHORT).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return tbRow;
-        }
+        return tableRow;
     }
 }
