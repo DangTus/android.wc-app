@@ -15,27 +15,33 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
 import com.bumptech.glide.Glide;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.reddog.worldcup2022.R;
+import com.reddog.worldcup2022.adapter.MatchAdapter;
+import com.reddog.worldcup2022.model.Match;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
 import cz.msebera.android.httpclient.Header;
 
-public class GroupStateFragment extends Fragment {
+public class GroupStateFragment extends ListFragment {
 
-    private LinearLayout lContent, lGroup;
+    private LinearLayout lGroup;
     private TableLayout tblBXH;
+    private AsyncHttpClient client;
+    private LayoutInflater inflater;
+    private ArrayList<Match> arrayMatch;
+    private MatchAdapter adapter;
 
     @Nullable
     @Override
@@ -43,18 +49,56 @@ public class GroupStateFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_group_state, container, false);
 
         anhxa(view);
+        this.inflater = inflater;
 
-        setBXHTable(inflater);
-        setListGroupButton();
+        client = new AsyncHttpClient();
+
+        //set data table group
+        setBXHTable("Group_A");
+        getListGroup();
+
+        //set data match
+        arrayMatch = new ArrayList<>();
+        adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
+        setListAdapter(adapter);
+        getDataMatch();
 
         return view;
     }
 
-    private void setListGroupButton() {
-        for(int i=1; i<=8; i++) {
+    private void getListGroup() {
+        List<String> groupList = new ArrayList<>();
+
+        String url = "https://reddog-api-wc-2022.herokuapp.com/stage/get-all";
+        client.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                for(int i=0; i<=response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+
+                        if(object.getString("stage").equals("Group_stage")) {
+                            JSONArray groupListJson = object.getJSONArray("nameStage");
+
+                            for(int j=0; j<groupListJson.length(); j++) {
+                                groupList.add(groupListJson.getString(j));
+                            }
+
+                            setListGroupButton(groupList);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private void setListGroupButton(List<String> listGroup) {
+        for (String group: listGroup) {
             Button button = new Button(getActivity());
 
-            button.setText("Bảng "+i);
+            button.setText(group);
 
             lGroup.addView(button);
 
@@ -68,15 +112,15 @@ public class GroupStateFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     setDefaultButton();
-
                     setCheckedButton(button);
+
+                    setBXHTable(group);
                 }
             });
         }
 
         //set default button
         setDefaultButton();
-
         //set checked for the first button
         setCheckedButton((Button) lGroup.getChildAt(0));
     }
@@ -94,37 +138,39 @@ public class GroupStateFragment extends Fragment {
         btn.setTextColor(getActivity().getResources().getColor(R.color.black));
     }
 
-    private void setBXHTable(LayoutInflater inflater) {
-        AsyncHttpClient client = new AsyncHttpClient();
-        String url = "https://reddog-api-wc-2022.herokuapp.com/team/get-by-group/1";
+    private void setBXHTable(String groupID) {
+        tblBXH.removeAllViews();
+        tblBXH.addView(inflater.inflate(R.layout.item_table_row_header, tblBXH, false));
 
+        String url = "https://reddog-api-wc-2022.herokuapp.com/team/get-by-group/" + groupID;
         client.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    JSONArray group = response.getJSONArray("Group A");
+                    String trangThai = response.getString("status");
 
-                    for (int i=0; i<group.length(); i++) {
-                        JSONObject object = group.getJSONObject(i);
+                    if(trangThai.equals("success")) {
+                        JSONArray data = response.getJSONArray("data");
 
-                        //create table row
-                        TableRow tableRow = (TableRow) inflater.inflate(R.layout.item_table_row, tblBXH, false);
-                        //set data table row
-                        tableRow = setDataTableRow(tableRow, object);
-                        //add table row to table layout
-                        tblBXH.addView(tableRow);
+                        int teamLen = data.length();
+                        for (int i=0; i<teamLen; i++) {
+                            JSONObject object = data.getJSONObject(i);
+
+                            //create table row
+                            TableRow tableRow = (TableRow) inflater.inflate(R.layout.item_table_row, tblBXH, false);
+                            //set data table row
+                            tableRow = setDataTableRow(tableRow, object);
+                            //add table row to table layout
+                            tblBXH.addView(tableRow);
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Sai link roi, vui long thu lai", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
-    }
-
-    private void anhxa(View view){
-        lContent = view.findViewById(R.id.contentLayout);
-        lGroup = view.findViewById(R.id.list_group);
-        tblBXH = view.findViewById(R.id.bxh_tblayout);
     }
 
     private TableRow setDataTableRow(TableRow tableRow, JSONObject object) throws JSONException {
@@ -151,5 +197,33 @@ public class GroupStateFragment extends Fragment {
         teamPoints.setText(object.getString("points"));
 
         return tableRow;
+    }
+
+    private void getDataMatch() {
+        String url = getString(R.string.URL) + "match/stage/Group_stage/group_A";
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    if (!response.getString("status").equals("success")){
+                        Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), response.getString("thanh cong"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getActivity(), responseString, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void anhxa(View view){
+        lGroup = view.findViewById(R.id.list_group);
+        tblBXH = view.findViewById(R.id.bxh_tblayout);
     }
 }
