@@ -23,6 +23,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.reddog.worldcup2022.R;
 import com.reddog.worldcup2022.adapter.MatchAdapter;
 import com.reddog.worldcup2022.model.Match;
+import com.reddog.worldcup2022.module.GroupModule;
+import com.reddog.worldcup2022.module.StageModule;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,47 +60,31 @@ public class GroupStateFragment extends ListFragment {
         getListGroup();
 
         //set data match
-        arrayMatch = new ArrayList<>();
-        adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
-        setListAdapter(adapter);
-        getDataMatch();
+//        arrayMatch = new ArrayList<>();
+//        adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
+//        setListAdapter(adapter);
+//        getDataMatch();
 
         return view;
     }
 
     private void getListGroup() {
-        List<String> groupList = new ArrayList<>();
-
         String url = "https://reddog-api-wc-2022.herokuapp.com/stage/get-all";
         client.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                for(int i=0; i<=response.length(); i++) {
-                    try {
-                        JSONObject object = response.getJSONObject(i);
-
-                        if(object.getString("stage").equals("Group_stage")) {
-                            JSONArray groupListJson = object.getJSONArray("nameStage");
-
-                            for(int j=0; j<groupListJson.length(); j++) {
-                                groupList.add(groupListJson.getString(j));
-                            }
-
-                            setListGroupButton(groupList);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+                List<String> groupNameList = StageModule.getNameStage(response, "Group_stage");
+                setListGroupButton(groupNameList);
             }
         });
     }
 
     private void setListGroupButton(List<String> listGroup) {
-        for (String group: listGroup) {
+        for (String idGroup: listGroup) {
             Button button = new Button(getActivity());
 
-            button.setText(group);
+            String nameGroup = GroupModule.idToName(idGroup);
+            button.setText(nameGroup);
 
             lGroup.addView(button);
 
@@ -113,8 +99,7 @@ public class GroupStateFragment extends ListFragment {
                 public void onClick(View view) {
                     setDefaultButton();
                     setCheckedButton(button);
-
-                    setBXHTable(group);
+                    setBXHTable(idGroup);
                 }
             });
         }
@@ -150,11 +135,11 @@ public class GroupStateFragment extends ListFragment {
                     String trangThai = response.getString("status");
 
                     if(trangThai.equals("success")) {
-                        JSONArray data = response.getJSONArray("data");
+                        JSONArray team = response.getJSONArray("team");
 
-                        int teamLen = data.length();
+                        int teamLen = team.length();
                         for (int i=0; i<teamLen; i++) {
-                            JSONObject object = data.getJSONObject(i);
+                            JSONObject object = team.getJSONObject(i);
 
                             //create table row
                             TableRow tableRow = (TableRow) inflater.inflate(R.layout.item_table_row, tblBXH, false);
@@ -164,7 +149,7 @@ public class GroupStateFragment extends ListFragment {
                             tblBXH.addView(tableRow);
                         }
                     } else {
-                        Toast.makeText(getActivity(), "Sai link roi, vui long thu lai", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Vui long thu lai sau", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
