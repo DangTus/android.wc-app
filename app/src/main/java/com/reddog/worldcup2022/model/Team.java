@@ -1,29 +1,22 @@
 package com.reddog.worldcup2022.model;
 
 public class Team {
-    private String name=null;
-    private String logo=null;
-    private int possitison=0;
-    private int played=0;
-    private int won=0;
-    private int drawn=0;
-    private int lost=0;
-    private int goalDiffience=0;
-    private int points=0;
+    private String name = null;
+    private String logo = null;
+    private int position = 0;
+    private int played = 0;
+    private int won = 0;
+    private int drawn = 0;
+    private int lost = 0;
+    private int goalDiffience = 0;
+    private int points = 0;
 
     public Team() {
     }
 
-    public Team(String name, String logo, int possitison, int played, int won, int drawn, int lost, int goalDiffience, int points) {
+    public Team(String name, String logo) {
         this.name = name;
         this.logo = logo;
-        this.possitison = possitison;
-        this.played = played;
-        this.won = won;
-        this.drawn = drawn;
-        this.lost = lost;
-        this.goalDiffience = goalDiffience;
-        this.points = points;
     }
 
     public String getName() {
@@ -42,12 +35,12 @@ public class Team {
         this.logo = logo;
     }
 
-    public int getPossitison() {
-        return possitison;
+    public int getPosition() {
+        return position;
     }
 
-    public void setPossitison(int possitison) {
-        this.possitison = possitison;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public int getPlayed() {

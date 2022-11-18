@@ -1,20 +1,24 @@
 package com.reddog.worldcup2022.model;
 
+import com.reddog.worldcup2022.module.DateModule;
+
+import java.util.Collections;
 import java.util.List;
 
 public class Match {
-    private Team awayT=null;
-    private Team homeT=null;
-    private List<Goal> awatG=null;
-    private List<Goal> homeG=null;
-    private String date=null;
-    private String time=null;
-    private String stage=null;
-    private String nameStage=null;
-    private int awayScore=0;
-    private int homeScore=0;
-    private int awayScorePen=0;
-    private int homeScorePen=0;
+
+    private Team awayT = null;
+    private Team homeT = null;
+    private List<Goal> goalList = null;
+    private String ngay = null;
+    private String time = null;
+    private String stage = null;
+    private String nameStage = null;
+    private int awayScore = 0;
+    private int homeScore = 0;
+    private int awayScorePen = 0;
+    private int homeScorePen = 0;
+    private boolean status = false;
 
     public Match() {
     }
@@ -35,28 +39,21 @@ public class Match {
         this.homeT = homeT;
     }
 
-    public List<Goal> getAwatG() {
-        return awatG;
+    public List<Goal> getGoalList() {
+        return goalList;
     }
 
-    public void setAwatG(List<Goal> awatG) {
-        this.awatG = awatG;
-    }
-
-    public List<Goal> getHomeG() {
-        return homeG;
-    }
-
-    public void setHomeG(List<Goal> homeG) {
-        this.homeG = homeG;
+    public void setGoalList(List<Goal> goalList) {
+        this.goalList = goalList;
     }
 
     public String getDate() {
-        return date;
+        return this.ngay;
     }
 
     public void setDate(String date) {
-        this.date = date;
+       DateModule dateModule = new DateModule(date);
+       this.ngay = dateModule.getStringDate();
     }
 
     public String getTime() {
@@ -115,33 +112,38 @@ public class Match {
         this.homeScorePen = homeScorePen;
     }
 
-    public Match(Team awayT, Team homeT, List<Goal> awatG, List<Goal> homeG, String date, String time, String stage, String nameStage, int awayScore, int homeScore, int awayScorePen, int homeScorePen) {
-        this.awayT = awayT;
-        this.homeT = homeT;
-        this.awatG = awatG;
-        this.homeG = homeG;
-        this.date = date;
-        this.time = time;
-        this.stage = stage;
-        this.nameStage = nameStage;
-        this.awayScore = awayScore;
-        this.homeScore = homeScore;
-        this.awayScorePen = awayScorePen;
-        this.homeScorePen = homeScorePen;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setScore(String score){
-        this.homeScore= Integer.valueOf(score.split("-")[0]);
-        this.awayScore= Integer.valueOf(score.split("-")[1]);
+    public void setStatus(String status) {
+        if(status == "null") {
+            this.status = false;
+        } else {
+            this.status = true;
+        }
     }
-    public void setScorePen(String scorePen){
-        this.homeScorePen= Integer.valueOf(scorePen.split("-")[0]);
-        this.awayScorePen= Integer.valueOf(scorePen.split("-")[1]);
+
+    public void setScore(String score) {
+        if(this.status) {
+            this.homeScore = Integer.parseInt(score.split("–")[0]);
+            this.awayScore = Integer.parseInt(score.split("–")[1]);
+        }
     }
-    public String getNameStageString(String nameStage){
-        return nameStage.replace("_"," ");
+
+    public void setPenScore(String penScore) {
+        if (penScore != "null") {
+            this.homeScorePen = Integer.parseInt(penScore.split("–")[0]);
+            this.awayScorePen = Integer.parseInt(penScore.split("–")[1]);
+        }
     }
-    public String getStageString(String stage){
-        return stage.replace("_"," ");
+
+    private void sortListGoal() {
+        Collections.sort(this.goalList);
+    }
+
+    @Override
+    public String toString() {
+        return ngay;
     }
 }

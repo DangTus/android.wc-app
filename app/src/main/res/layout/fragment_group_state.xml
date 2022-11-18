@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/dark_scarlet">
+    android:background="@color/dark_scarlet"
+    android:orientation="vertical">
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="13dp"/>
+            android:padding="13dp" />
     </HorizontalScrollView>
 
     <ScrollView
@@ -28,45 +28,45 @@
         <LinearLayout
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Bảng xếp hạng"
                 android:textColor="@color/ocean_boat_blue"
                 android:textSize="25sp"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
+                android:textStyle="bold" />
 
             <TableLayout
                 android:id="@+id/bxh_tblayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:stretchColumns="1"
-                android:background="@drawable/bg_main"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/bg_main"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp">
-
+                android:paddingVertical="8dp"
+                android:stretchColumns="1">
             </TableLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Các trận đấu"
                 android:textColor="@color/ocean_boat_blue"
                 android:textSize="25sp"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
+                android:textStyle="bold" />
 
             <ListView
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"/>
+                android:layout_height="780dp"
+                android:layout_marginTop="16dp"
+                android:dividerHeight="0dp"
+                android:divider="@null"/>
         </LinearLayout>
-
     </ScrollView>
 </LinearLayout>

@@ -1,9 +1,11 @@
 package com.reddog.worldcup2022.model;
 
-public class Goal {
+public class Goal implements Comparable<Goal> {
     private String player;
     private String time;
     private String type;
+    //true is home team, false is away team
+    private boolean team;
 
     public Goal() {
     }
@@ -29,12 +31,12 @@ public class Goal {
     }
 
     public void setType(String type) {
-        if(type.equals("pen")){
-            this.type="Penalty";
-        }else if(type.equals("o.g")){
-            this.type="Own goal";
-        }else{
-            this.type=type;
+        if (type.equals("pen")) {
+            this.type = "Penalty";
+        } else if (type.equals("o.g")) {
+            this.type = "Own goal";
+        } else {
+            this.type = type;
         }
     }
 
@@ -42,6 +44,34 @@ public class Goal {
         this.player = player;
         this.time = time;
         this.type = type;
+    }
+
+    public boolean isTeam() {
+        return team;
+    }
+
+    public void setTeam(boolean team) {
+        this.team = team;
+    }
+
+    public int getValueTime() {
+        if (this.time.indexOf("+") == -1) {
+            return Integer.parseInt(this.time);
+        } else {
+            int time = Integer.parseInt(this.time.split("\\+")[0]) + Integer.parseInt(this.time.split("\\+")[1]);
+            return time;
+        }
+    }
+
+    @Override
+    public int compareTo(Goal goal) {
+        if (getValueTime() == goal.getValueTime()) {
+            return 0;
+        } else if (getValueTime() > goal.getValueTime()) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
 }
 

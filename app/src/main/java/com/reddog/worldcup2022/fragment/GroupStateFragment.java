@@ -23,7 +23,9 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.reddog.worldcup2022.R;
 import com.reddog.worldcup2022.adapter.MatchAdapter;
 import com.reddog.worldcup2022.model.Match;
+import com.reddog.worldcup2022.model.Team;
 import com.reddog.worldcup2022.module.GroupModule;
+import com.reddog.worldcup2022.module.MatchModule;
 import com.reddog.worldcup2022.module.StageModule;
 
 import org.json.JSONArray;
@@ -42,7 +44,7 @@ public class GroupStateFragment extends ListFragment {
     private TableLayout tblBXH;
     private AsyncHttpClient client;
     private LayoutInflater inflater;
-    private ArrayList<Match> arrayMatch;
+    private List<Match> arrayMatch;
     private MatchAdapter adapter;
 
     @Nullable
@@ -60,10 +62,10 @@ public class GroupStateFragment extends ListFragment {
         getListGroup();
 
         //set data match
-//        arrayMatch = new ArrayList<>();
-//        adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
-//        setListAdapter(adapter);
-//        getDataMatch();
+        arrayMatch = new ArrayList<>();
+        adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
+        setListAdapter(adapter);
+        getDataMatch("Group_A");
 
         return view;
     }
@@ -100,6 +102,7 @@ public class GroupStateFragment extends ListFragment {
                     setDefaultButton();
                     setCheckedButton(button);
                     setBXHTable(idGroup);
+                    getDataMatch(idGroup);
                 }
             });
         }
@@ -184,22 +187,28 @@ public class GroupStateFragment extends ListFragment {
         return tableRow;
     }
 
-    private void getDataMatch() {
-        String url = getString(R.string.URL) + "match/stage/Group_stage/group_A";
+    private void getDataMatch(String idGroup) {
+        arrayMatch.clear();
+        adapter.notifyDataSetChanged();
+
+        String url = getString(R.string.URL) + "match/stage/Group_stage/" + idGroup;
         client.get(url, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    if (!response.getString("status").equals("success")){
+                    if (!response.getString("status").equals("Success")){
                         Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getActivity(), response.getString("thanh cong"), Toast.LENGTH_SHORT).show();
+                        arrayMatch = MatchModule.getMatch(response.getJSONArray("data"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                adapter.notifyDataSetChanged();
+
+                adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
+                setListAdapter(adapter);
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Toast.makeText(getActivity(), responseString, Toast.LENGTH_SHORT).show();

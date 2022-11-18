@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.reddog.worldcup2022.R;
@@ -40,23 +41,22 @@ public class MatchAdapter extends BaseAdapter {
         return 0;
     }
 
-    private class ViewHolder{
-        TextView txtNgay, txtGio, txtTenDoiNha, txtTenDoiKhach, txt_tsDoiNha, txt_tsDoiKhach;
-        ImageView imgDoiNha, imgDoiKhach;
-    }
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder;
-        if (view == null){
+
+        if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(layout, null);
+
             holder = new ViewHolder();
+
             //anh xa
             holder.txtTenDoiNha = view.findViewById(R.id.ten_doi_nha);
             holder.txtTenDoiKhach = view.findViewById(R.id.ten_doi_khach);
             holder.txtNgay = view.findViewById(R.id.day);
             holder.txtGio = view.findViewById(R.id.tvGio);
+
             holder.txt_tsDoiNha = view.findViewById(R.id.ti_so_doi_nha);
             holder.txt_tsDoiKhach = view.findViewById(R.id.ti_so_doi_khach);
 
@@ -64,29 +64,35 @@ public class MatchAdapter extends BaseAdapter {
             holder.imgDoiKhach = view.findViewById(R.id.img_doi_khach);
 
             view.setTag(holder);
-        }else {
+        } else {
             holder = (ViewHolder) view.getTag();
         }
+
         //gán giá trị
         Match m = matchList.get(i);
         holder.txtTenDoiNha.setText(m.getHomeT().getName());
         holder.txtTenDoiKhach.setText(m.getAwayT().getName());
         holder.txtNgay.setText(m.getDate());
         holder.txtGio.setText(m.getTime());
+        holder.txt_tsDoiNha.setText(String.valueOf(m.getHomeScore()));
+        holder.txt_tsDoiKhach.setText(String.valueOf(m.getAwayScore()));
         //chua anh xa ti so
 
         Glide
                 .with(context)
-                .load("https://zantung.000webhostapp.com/" + m.getHomeT().getLogo())
-                .fitCenter()
+                .load(m.getHomeT().getLogo())
                 .into(holder.imgDoiNha);
 
         Glide
                 .with(context)
-                .load("https://zantung.000webhostapp.com/" + m.getAwayT().getLogo())
-                .fitCenter()
+                .load(m.getAwayT().getLogo())
                 .into(holder.imgDoiKhach);
 
         return view;
+    }
+
+    private class ViewHolder {
+        TextView txtNgay, txtGio, txtTenDoiNha, txtTenDoiKhach, txt_tsDoiNha, txt_tsDoiKhach;
+        ImageView imgDoiNha, imgDoiKhach;
     }
 }
