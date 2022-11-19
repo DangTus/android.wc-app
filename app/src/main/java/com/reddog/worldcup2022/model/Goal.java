@@ -10,6 +10,12 @@ public class Goal implements Comparable<Goal> {
     public Goal() {
     }
 
+    public Goal(String player, String time, String type) {
+        this.player = player;
+        this.time = time;
+        this.type = type;
+    }
+
     public String getPlayer() {
         return player;
     }
@@ -38,12 +44,6 @@ public class Goal implements Comparable<Goal> {
         } else {
             this.type = type;
         }
-    }
-
-    public Goal(String player, String time, String type) {
-        this.player = player;
-        this.time = time;
-        this.type = type;
     }
 
     public boolean isTeam() {

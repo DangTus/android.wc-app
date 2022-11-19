@@ -28,47 +28,26 @@ public class MatchModule {
         return team;
     }
 
-    private static List<Goal> setGoal(JSONObject objectJSON) {
-        List<Goal> goalList = new ArrayList<>();
-
+    private static List<Goal> addListGoal(JSONObject objectJSON, List<Goal> goalList, String team) {
         try {
             //get goal home team
-            JSONArray arrayHome = objectJSON.getJSONArray("homeG");
+            JSONArray goalListJSON = objectJSON.getJSONArray(team);
 
-            int arrayHomeLen = arrayHome.length();
-            for (int i = 0; i < arrayHomeLen; i++) {
+            int goalListJSONLen = goalListJSON.length();
+            for (int i = 0; i < goalListJSONLen; i++) {
                 Goal goal = new Goal();
-                JSONObject obj = arrayHome.getJSONObject(i);
+                JSONObject obj = goalListJSON.getJSONObject(i);
 
                 goal.setPlayer(obj.getString("player"));
                 goal.setTime(obj.getString("timeG"));
                 goal.setType(obj.getString("type"));
-                goal.setTeam(true);
+                goal.setTeam(team.equals("homeG") ? true : false);
 
                 goalList.add(goal);
             }
-
-
-            //get goal away team
-            JSONArray arrayAway = objectJSON.getJSONArray("awayG");
-
-            int arrayAwayLen = arrayAway.length();
-            for (int i = 0; i < arrayAwayLen; i++) {
-                Goal goal = new Goal();
-                JSONObject obj = arrayAway.getJSONObject(i);
-
-                goal.setPlayer(obj.getString("player"));
-                goal.setTime(obj.getString("timeG"));
-                goal.setType(obj.getString("type"));
-                goal.setTeam(false);
-
-                goalList.add(goal);
-            }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         return goalList;
     }
@@ -85,7 +64,6 @@ public class MatchModule {
 
                 Team awayT = setTeam(obj, "awayT");
                 Team homeT = setTeam(obj, "homeT");
-
                 match.setHomeT(homeT);
                 match.setAwayT(awayT);
 
@@ -93,7 +71,9 @@ public class MatchModule {
                 match.setScore(obj.getString("score"));
                 match.setPenScore(obj.getString("scorePen"));
 
-                match.setGoalList(setGoal(obj));
+                List<Goal> goalList = new ArrayList<>();
+                goalList = addListGoal(obj, goalList, "homeG");
+                goalList = addListGoal(obj, goalList, "awayG");
 
                 match.setDate(obj.getString("date"));
                 match.setTime(obj.getString("time"));

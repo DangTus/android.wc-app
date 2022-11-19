@@ -11,7 +11,12 @@ public class GroupModule {
 
     public static String idToName(String idGroup) {
         String[] array = idGroup.split("_");
-        String nameGroup = array[0] + " " + array[1];
-        return nameGroup;
+        String nameGroup = "";
+
+        for (String value : array) {
+            nameGroup += " " + value;
+        }
+
+        return nameGroup.trim();
     }
 }

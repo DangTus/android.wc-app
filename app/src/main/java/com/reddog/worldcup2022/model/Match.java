@@ -1,6 +1,6 @@
 package com.reddog.worldcup2022.model;
 
-import com.reddog.worldcup2022.module.DateModule;
+import com.reddog.worldcup2022.module.DayModule;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,12 +10,12 @@ public class Match {
     private Team awayT = null;
     private Team homeT = null;
     private List<Goal> goalList = null;
-    private String ngay = null;
+    private String day = null;
     private String time = null;
     private String stage = null;
     private String nameStage = null;
-    private int awayScore = 0;
-    private int homeScore = 0;
+    private int awayScore = -1;
+    private int homeScore = -1;
     private int awayScorePen = 0;
     private int homeScorePen = 0;
     private boolean status = false;
@@ -48,12 +48,12 @@ public class Match {
     }
 
     public String getDate() {
-        return this.ngay;
+        return this.day;
     }
 
     public void setDate(String date) {
-       DateModule dateModule = new DateModule(date);
-       this.ngay = dateModule.getStringDate();
+        DayModule dayModule = new DayModule(date);
+        this.day = dayModule.toString();
     }
 
     public String getTime() {
@@ -117,7 +117,7 @@ public class Match {
     }
 
     public void setStatus(String status) {
-        if(status == "null") {
+        if (status.equals("null")) {
             this.status = false;
         } else {
             this.status = true;
@@ -125,14 +125,14 @@ public class Match {
     }
 
     public void setScore(String score) {
-        if(this.status) {
+        if (this.status) {
             this.homeScore = Integer.parseInt(score.split("–")[0]);
             this.awayScore = Integer.parseInt(score.split("–")[1]);
         }
     }
 
     public void setPenScore(String penScore) {
-        if (penScore != "null") {
+        if (!penScore.equals("null")) {
             this.homeScorePen = Integer.parseInt(penScore.split("–")[0]);
             this.awayScorePen = Integer.parseInt(penScore.split("–")[1]);
         }
@@ -140,10 +140,5 @@ public class Match {
 
     private void sortListGoal() {
         Collections.sort(this.goalList);
-    }
-
-    @Override
-    public String toString() {
-        return ngay;
     }
 }

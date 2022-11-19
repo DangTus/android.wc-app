@@ -1,11 +1,14 @@
 package com.reddog.worldcup2022.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +65,8 @@ public class MatchAdapter extends BaseAdapter {
 
             holder.imgDoiNha = view.findViewById(R.id.img_doi_nha);
             holder.imgDoiKhach = view.findViewById(R.id.img_doi_khach);
+            holder.imgBorderNha = view.findViewById(R.id.img_border_doi_nha);
+            holder.imgBorderKhach = view.findViewById(R.id.img_border_doi_khach);
 
             view.setTag(holder);
         } else {
@@ -74,25 +79,40 @@ public class MatchAdapter extends BaseAdapter {
         holder.txtTenDoiKhach.setText(m.getAwayT().getName());
         holder.txtNgay.setText(m.getDate());
         holder.txtGio.setText(m.getTime());
-        holder.txt_tsDoiNha.setText(String.valueOf(m.getHomeScore()));
-        holder.txt_tsDoiKhach.setText(String.valueOf(m.getAwayScore()));
-        //chua anh xa ti so
+        Glide.with(context).load(m.getHomeT().getLogo()).into(holder.imgDoiNha);
+        Glide.with(context).load(m.getAwayT().getLogo()).into(holder.imgDoiKhach);
+        if (m.getHomeScore() != -1 && m.getHomeScore() != -1) {
+            holder.txt_tsDoiNha.setText(String.valueOf(m.getHomeScore()));
+            holder.txt_tsDoiKhach.setText(String.valueOf(m.getAwayScore()));
 
-        Glide
-                .with(context)
-                .load(m.getHomeT().getLogo())
-                .into(holder.imgDoiNha);
-
-        Glide
-                .with(context)
-                .load(m.getAwayT().getLogo())
-                .into(holder.imgDoiKhach);
+            setColorTeamWin(holder, m);
+        } else {
+            holder.txt_tsDoiNha.setText("");
+            holder.txt_tsDoiKhach.setText("");
+        }
 
         return view;
+    }
+
+    private void setColorTeamWin(ViewHolder holder, Match match) {
+        if (match.getHomeScore() > match.getAwayScore()) {
+            holder.txtTenDoiNha.setTextColor(context.getResources().getColor(R.color.picton_blue));
+            holder.txtTenDoiNha.setTypeface(holder.txtTenDoiNha.getTypeface(), Typeface.BOLD);
+            holder.txt_tsDoiNha.setTextColor(context.getResources().getColor(R.color.picton_blue));
+            holder.txt_tsDoiNha.setTypeface(holder.txtTenDoiNha.getTypeface(), Typeface.BOLD);
+            holder.imgBorderNha.setBackgroundResource(R.drawable.bg_border_radius_3_win);
+        } else if (match.getHomeScore() < match.getAwayScore()) {
+            holder.txtTenDoiKhach.setTextColor(context.getResources().getColor(R.color.picton_blue));
+            holder.txtTenDoiKhach.setTypeface(holder.txtTenDoiNha.getTypeface(), Typeface.BOLD);
+            holder.txt_tsDoiKhach.setTextColor(context.getResources().getColor(R.color.picton_blue));
+            holder.txt_tsDoiKhach.setTypeface(holder.txtTenDoiNha.getTypeface(), Typeface.BOLD);
+            holder.imgBorderKhach.setBackgroundResource(R.drawable.bg_border_radius_3_win);
+        }
     }
 
     private class ViewHolder {
         TextView txtNgay, txtGio, txtTenDoiNha, txtTenDoiKhach, txt_tsDoiNha, txt_tsDoiKhach;
         ImageView imgDoiNha, imgDoiKhach;
+        RelativeLayout imgBorderNha, imgBorderKhach;
     }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
 
 import com.bumptech.glide.Glide;
@@ -23,7 +23,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.reddog.worldcup2022.R;
 import com.reddog.worldcup2022.adapter.MatchAdapter;
 import com.reddog.worldcup2022.model.Match;
-import com.reddog.worldcup2022.model.Team;
 import com.reddog.worldcup2022.module.GroupModule;
 import com.reddog.worldcup2022.module.MatchModule;
 import com.reddog.worldcup2022.module.StageModule;
@@ -34,44 +33,43 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import cz.msebera.android.httpclient.Header;
 
 public class GroupStateFragment extends ListFragment {
-
     private LinearLayout lGroup;
     private TableLayout tblBXH;
     private AsyncHttpClient client;
     private LayoutInflater inflater;
     private List<Match> arrayMatch;
     private MatchAdapter adapter;
+    private RelativeLayout loadLayout;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_group_state, container, false);
+        View view = inflater.inflate(R.layout.fragment_group_stage, container, false);
 
         anhxa(view);
         this.inflater = inflater;
 
         client = new AsyncHttpClient();
 
-        //set data table group
-        setBXHTable("Group_A");
+        //start loadding
+        loadLayout.setVisibility(View.VISIBLE);
+
         getListGroup();
 
-        //set data match
+        //create adapter match
         arrayMatch = new ArrayList<>();
         adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
         setListAdapter(adapter);
-        getDataMatch("Group_A");
 
         return view;
     }
 
     private void getListGroup() {
-        String url = "https://reddog-api-wc-2022.herokuapp.com/stage/get-all";
+        String url = getString(R.string.URL) + "stage/get-all";
         client.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -82,27 +80,27 @@ public class GroupStateFragment extends ListFragment {
     }
 
     private void setListGroupButton(List<String> listGroup) {
-        for (String idGroup: listGroup) {
-            Button button = new Button(getActivity());
+        for (String idGroup : listGroup) {
+            Button button = (Button) inflater.inflate(R.layout.layout_button_stage, lGroup, false);
 
             String nameGroup = GroupModule.idToName(idGroup);
             button.setText(nameGroup);
 
             lGroup.addView(button);
 
-            //set margin
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) button.getLayoutParams();
-            params.setMargins(16, 0, 16, 0);
-            button.setLayoutParams(params);
-
             //set on click
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    setDefaultButton();
-                    setCheckedButton(button);
-                    setBXHTable(idGroup);
-                    getDataMatch(idGroup);
+                    if (loadLayout.getVisibility() == View.INVISIBLE) {
+                        //start loadding
+                        loadLayout.setVisibility(View.VISIBLE);
+
+                        setDefaultButton();
+                        setCheckedButton(button);
+                        setBXHTable(idGroup);
+                        setDataMatch(idGroup);
+                    }
                 }
             });
         }
@@ -111,10 +109,14 @@ public class GroupStateFragment extends ListFragment {
         setDefaultButton();
         //set checked for the first button
         setCheckedButton((Button) lGroup.getChildAt(0));
+        //set data table group default
+        setBXHTable("Group_A");
+        //set data match default
+        setDataMatch("Group_A");
     }
 
     private void setDefaultButton() {
-        for (int i=0; i<lGroup.getChildCount(); i++) {
+        for (int i = 0; i < lGroup.getChildCount(); i++) {
             Button button = (Button) lGroup.getChildAt(i);
             button.setTextColor(getActivity().getResources().getColor(R.color.white));
             button.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_main));
@@ -127,21 +129,23 @@ public class GroupStateFragment extends ListFragment {
     }
 
     private void setBXHTable(String groupID) {
-        tblBXH.removeAllViews();
-        tblBXH.addView(inflater.inflate(R.layout.item_table_row_header, tblBXH, false));
-
-        String url = "https://reddog-api-wc-2022.herokuapp.com/team/get-by-group/" + groupID;
+        String url = getString(R.string.URL) + "team/get-by-group/" + groupID;
         client.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     String trangThai = response.getString("status");
 
-                    if(trangThai.equals("success")) {
+                    if (trangThai.equals("success")) {
                         JSONArray team = response.getJSONArray("team");
 
+                        //set default table layout
+                        tblBXH.removeAllViews();
+                        tblBXH.addView(inflater.inflate(R.layout.item_table_row_header, tblBXH, false));
+
+                        //get data and add data in table layout
                         int teamLen = team.length();
-                        for (int i=0; i<teamLen; i++) {
+                        for (int i = 0; i < teamLen; i++) {
                             JSONObject object = team.getJSONObject(i);
 
                             //create table row
@@ -187,16 +191,16 @@ public class GroupStateFragment extends ListFragment {
         return tableRow;
     }
 
-    private void getDataMatch(String idGroup) {
+    private void setDataMatch(String idGroup) {
         arrayMatch.clear();
         adapter.notifyDataSetChanged();
 
         String url = getString(R.string.URL) + "match/stage/Group_stage/" + idGroup;
-        client.get(url, new JsonHttpResponseHandler(){
+        client.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    if (!response.getString("status").equals("Success")){
+                    if (!response.getString("status").equals("Success")) {
                         Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
                     } else {
                         arrayMatch = MatchModule.getMatch(response.getJSONArray("data"));
@@ -207,6 +211,9 @@ public class GroupStateFragment extends ListFragment {
 
                 adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
                 setListAdapter(adapter);
+
+                //end loadding
+                loadLayout.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -216,8 +223,9 @@ public class GroupStateFragment extends ListFragment {
         });
     }
 
-    private void anhxa(View view){
+    private void anhxa(View view) {
         lGroup = view.findViewById(R.id.list_group);
         tblBXH = view.findViewById(R.id.bxh_tblayout);
+        loadLayout = view.findViewById(R.id.load_layout);
     }
 }
