@@ -1,12 +1,16 @@
 package com.reddog.worldcup2022.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -33,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -40,7 +45,6 @@ public class GroupStateFragment extends ListFragment {
     private LinearLayout lGroup;
     private TableLayout tblBXH;
     private AsyncHttpClient client;
-    private LayoutInflater inflater;
     private List<Match> arrayMatch;
     private MatchAdapter adapter;
     private RelativeLayout loadLayout;
@@ -51,7 +55,6 @@ public class GroupStateFragment extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_group_stage, container, false);
 
         anhxa(view);
-        this.inflater = inflater;
 
         client = new AsyncHttpClient();
 
@@ -64,6 +67,8 @@ public class GroupStateFragment extends ListFragment {
         arrayMatch = new ArrayList<>();
         adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
         setListAdapter(adapter);
+
+
 
         return view;
     }
@@ -81,7 +86,7 @@ public class GroupStateFragment extends ListFragment {
 
     private void setListGroupButton(List<String> listGroup) {
         for (String idGroup : listGroup) {
-            Button button = (Button) inflater.inflate(R.layout.layout_button_stage, lGroup, false);
+            Button button = (Button) getLayoutInflater().inflate(R.layout.layout_button_stage, lGroup, false);
 
             String nameGroup = GroupModule.idToName(idGroup);
             button.setText(nameGroup);
@@ -141,7 +146,7 @@ public class GroupStateFragment extends ListFragment {
 
                         //set default table layout
                         tblBXH.removeAllViews();
-                        tblBXH.addView(inflater.inflate(R.layout.item_table_row_header, tblBXH, false));
+                        tblBXH.addView(getLayoutInflater().inflate(R.layout.item_table_row_header, tblBXH, false));
 
                         //get data and add data in table layout
                         int teamLen = team.length();
@@ -149,7 +154,7 @@ public class GroupStateFragment extends ListFragment {
                             JSONObject object = team.getJSONObject(i);
 
                             //create table row
-                            TableRow tableRow = (TableRow) inflater.inflate(R.layout.item_table_row, tblBXH, false);
+                            TableRow tableRow = (TableRow) getLayoutInflater().inflate(R.layout.item_table_row, tblBXH, false);
                             //set data table row
                             tableRow = setDataTableRow(tableRow, object);
                             //add table row to table layout
@@ -211,14 +216,26 @@ public class GroupStateFragment extends ListFragment {
 
                 adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
                 setListAdapter(adapter);
-
                 //end loadding
                 loadLayout.setVisibility(View.INVISIBLE);
+                //set height list view
+                setHeightListView();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Toast.makeText(getActivity(), responseString, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setHeightListView() {
+        getListView().post(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getListView().getLayoutParams();
+                params.height = 360 * arrayMatch.size() + 64;
+                getListView().setLayoutParams(params);
             }
         });
     }

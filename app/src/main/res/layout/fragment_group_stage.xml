@@ -66,7 +66,7 @@
                 <ListView
                     android:id="@android:id/list"
                     android:layout_width="match_parent"
-                    android:layout_height="750dp"
+                    android:layout_height="wrap_content"
                     android:dividerHeight="0dp"
                     android:divider="@null"/>
             </LinearLayout>

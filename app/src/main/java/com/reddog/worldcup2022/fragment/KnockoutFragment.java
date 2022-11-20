@@ -36,7 +36,6 @@ import cz.msebera.android.httpclient.Header;
 
 public class KnockoutFragment extends ListFragment {
     private LinearLayout lStage;
-    private LayoutInflater inflater;
     private AsyncHttpClient client;
     private List<Match> arrayMatch;
     private MatchAdapter adapter;
@@ -48,7 +47,6 @@ public class KnockoutFragment extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_knockout_stage, container, false);
 
         anhxa(view);
-        this.inflater = inflater;
 
         client = new AsyncHttpClient();
 
@@ -78,7 +76,7 @@ public class KnockoutFragment extends ListFragment {
 
     private void setListStageButton(List<String> listGroup) {
         for (String idGroup : listGroup) {
-            Button button = (Button) inflater.inflate(R.layout.layout_button_stage, lStage, false);
+            Button button = (Button) getLayoutInflater().inflate(R.layout.layout_button_stage, lStage, false);
 
             String nameGroup = GroupModule.idToName(idGroup);
             button.setText(nameGroup);
@@ -142,14 +140,26 @@ public class KnockoutFragment extends ListFragment {
 
                 adapter = new MatchAdapter(getActivity(), R.layout.row_tran_dau, arrayMatch);
                 setListAdapter(adapter);
-
                 //end loadding
                 loadLayout.setVisibility(View.INVISIBLE);
+                //set height list view
+                setHeightListView();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Toast.makeText(getActivity(), responseString, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setHeightListView() {
+        getListView().post(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getListView().getLayoutParams();
+                params.height = 360 * arrayMatch.size() + 64;
+                getListView().setLayoutParams(params);
             }
         });
     }
