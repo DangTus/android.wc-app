@@ -68,11 +68,6 @@
                         android:textColor="@color/white"/>
                 </LinearLayout>
 
-<!--                <View-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="1dp"-->
-<!--                    android:background="#f8f8f8"/>-->
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -125,7 +120,6 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/dark_scarlet"
-            android:layout_marginVertical="8dp"
             android:layout_marginHorizontal="16dp"/>
 
         <LinearLayout
@@ -136,12 +130,23 @@
             android:gravity="center_horizontal">
 
             <TextView
+                android:id="@+id/stage_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Group A"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold|italic"/>
+
+            <TextView
                 android:id="@+id/day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cn, 20/11/2022"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="italic"
+                android:layout_marginTop="8dp"/>
 
             <TextView
                 android:id="@+id/tvGio"
@@ -151,6 +156,7 @@
                 android:layout_below="@id/day"
                 android:textColor="@color/white"
                 android:textSize="15sp"
+                android:textStyle="italic"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
     </LinearLayout>

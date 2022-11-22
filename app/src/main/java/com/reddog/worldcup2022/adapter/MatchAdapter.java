@@ -60,6 +60,7 @@ public class MatchAdapter extends BaseAdapter {
             holder.txtTenDoiKhach = view.findViewById(R.id.ten_doi_khach);
             holder.txtNgay = view.findViewById(R.id.day);
             holder.txtGio = view.findViewById(R.id.tvGio);
+            holder.txtStage = view.findViewById(R.id.stage_textview);
 
             holder.txt_tsDoiNha = view.findViewById(R.id.ti_so_doi_nha);
             holder.txt_tsDoiKhach = view.findViewById(R.id.ti_so_doi_khach);
@@ -80,6 +81,7 @@ public class MatchAdapter extends BaseAdapter {
         holder.txtTenDoiKhach.setText(m.getAwayT().getName());
         holder.txtNgay.setText(m.getDate());
         holder.txtGio.setText(m.getTime());
+        holder.txtStage.setText(m.getStage());
         Glide.with(context).load(m.getHomeT().getLogo()).into(holder.imgDoiNha);
         Glide.with(context).load(m.getAwayT().getLogo()).into(holder.imgDoiKhach);
         if (m.getHomeScore() != -1 && m.getHomeScore() != -1) {
@@ -114,7 +116,7 @@ public class MatchAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView txtNgay, txtGio, txtTenDoiNha, txtTenDoiKhach, txt_tsDoiNha, txt_tsDoiKhach;
+        TextView txtNgay, txtGio, txtTenDoiNha, txtTenDoiKhach, txt_tsDoiNha, txt_tsDoiKhach, txtStage;
         ImageView imgDoiNha, imgDoiKhach;
         RelativeLayout imgBorderNha, imgBorderKhach;
     }
