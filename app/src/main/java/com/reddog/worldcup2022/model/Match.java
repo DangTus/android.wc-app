@@ -2,10 +2,11 @@ package com.reddog.worldcup2022.model;
 
 import com.reddog.worldcup2022.module.DayModule;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class Match {
+public class Match implements Serializable {
 
     private Team awayT = null;
     private Team homeT = null;

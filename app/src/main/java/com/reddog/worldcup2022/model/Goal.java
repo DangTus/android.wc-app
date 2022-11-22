@@ -1,6 +1,8 @@
 package com.reddog.worldcup2022.model;
 
-public class Goal implements Comparable<Goal> {
+import java.io.Serializable;
+
+public class Goal implements Comparable<Goal>, Serializable {
     private String player;
     private String time;
     private String type;
@@ -42,7 +44,7 @@ public class Goal implements Comparable<Goal> {
         } else if (type.equals("o.g")) {
             this.type = "Own goal";
         } else {
-            this.type = type;
+            this.type = "Bàn thắng";
         }
     }
 

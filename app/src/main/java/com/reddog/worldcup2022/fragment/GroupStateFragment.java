@@ -1,12 +1,10 @@
 package com.reddog.worldcup2022.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +22,7 @@ import androidx.fragment.app.ListFragment;
 import com.bumptech.glide.Glide;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.reddog.worldcup2022.MatchDetailActivity;
 import com.reddog.worldcup2022.R;
 import com.reddog.worldcup2022.adapter.MatchAdapter;
 import com.reddog.worldcup2022.model.Match;
@@ -37,7 +36,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -238,6 +236,13 @@ public class GroupStateFragment extends ListFragment {
                 getListView().setLayoutParams(params);
             }
         });
+    }
+
+    @Override
+    public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
+        Intent intent = new Intent(getActivity(), MatchDetailActivity.class);
+        intent.putExtra("data_match", arrayMatch.get(position));
+        startActivity(intent);
     }
 
     private void anhxa(View view) {

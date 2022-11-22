@@ -1,6 +1,8 @@
 package com.reddog.worldcup2022.model;
 
-public class Team {
+import java.io.Serializable;
+
+public class Team implements Serializable {
     private String name = null;
     private String logo = null;
     private int position = 0;

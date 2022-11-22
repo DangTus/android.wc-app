@@ -26,7 +26,17 @@
                 android:background="@color/dark_scarlet"
                 android:theme="@style/ToolbarColoredBackArrow"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:titleTextColor="@color/mikado_yellow" />
+                app:titleTextColor="@color/mikado_yellow">
+
+                <ImageButton
+                    android:id="@+id/setting_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="16dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_setting"/>
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
@@ -41,11 +51,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/layout_header_nav"
-        app:menu="@menu/menu_nav"/>
-
-<!--    <androidx.viewpager2.widget.ViewPager2-->
-<!--        android:id="@+id/view_pager"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"/>-->
-
+        app:menu="@menu/menu_nav" />
 </androidx.drawerlayout.widget.DrawerLayout>

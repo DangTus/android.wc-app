@@ -10,9 +10,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.reddog.worldcup2022.fragment.GroupStateFragment;
@@ -30,7 +39,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private NavigationView mNavigationView;
-    private FrameLayout contentFrame;
+    private ImageButton settingButton;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         anhXa();
 
+        sharedPreferences = getSharedPreferences("dataApp", MODE_PRIVATE);
+
+        mToolbar.setTitle(R.string.nav_home);
         setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
                 R.string.nav_drawer_open, R.string.nav_drawer_close);
@@ -47,8 +60,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mNavigationView.setNavigationItemSelectedListener(this);
 
+        //set default
         replaceFragment(new HomeFragment());
         mNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+
+        //on click setting
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSetting();
+            }
+        });
     }
 
     @Override
@@ -60,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(mCurrentFragment != FRAGMENT_HOME) {
                     replaceFragment(new HomeFragment());
                     mCurrentFragment = FRAGMENT_HOME;
+                    mToolbar.setTitle(getString(R.string.nav_home));
                 }
                 break;
 
@@ -67,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(mCurrentFragment != FRAGMENT_GROUP_STATE) {
                     replaceFragment(new GroupStateFragment());
                     mCurrentFragment = FRAGMENT_GROUP_STATE;
+                    mToolbar.setTitle(getString(R.string.nav_group_state));
                 }
                 break;
 
@@ -74,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(mCurrentFragment != FRAGMENT_KNOCKOUT_STATE) {
                     replaceFragment(new KnockoutFragment());
                     mCurrentFragment = FRAGMENT_KNOCKOUT_STATE;
+                    mToolbar.setTitle(getString(R.string.nav_knockout_state));
                 }
                 break;
         }
@@ -81,6 +106,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, fragment);
+        transaction.commit();
+    }
+
+    private void showSetting() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_setting);
+        dialog.setCanceledOnTouchOutside(false);
+
+        //anh xa
+        final ImageButton btnHuy = dialog.findViewById(R.id.huy_button);
+        final Button btnLuu = dialog.findViewById(R.id.luu_button);
+        final Switch swAmThanh = dialog.findViewById(R.id.amthanh_switch);
+        
+        //set switch
+        swAmThanh.setChecked(sharedPreferences.getBoolean("setting_amthanh", true));
+
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnLuu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("setting_amthanh", swAmThanh.isChecked());
+                editor.commit();
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     @Override
@@ -92,15 +158,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void replaceFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
-        transaction.commit();
-    }
-
     private void anhXa() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mToolbar = findViewById(R.id.toolbar);
         mNavigationView = findViewById(R.id.navigation_view);
+        settingButton = findViewById(R.id.setting_button);
     }
 }

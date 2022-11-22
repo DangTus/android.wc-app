@@ -74,9 +74,13 @@ public class MatchModule {
                 List<Goal> goalList = new ArrayList<>();
                 goalList = addListGoal(obj, goalList, "homeG");
                 goalList = addListGoal(obj, goalList, "awayG");
+                match.setGoalList(goalList);
 
                 match.setDate(obj.getString("date"));
                 match.setTime(obj.getString("time"));
+
+                String stage = GroupModule.idToName(obj.getString("nameStage"));
+                match.setStage(stage);
 
                 matchList.add(match);
             } catch (JSONException e) {

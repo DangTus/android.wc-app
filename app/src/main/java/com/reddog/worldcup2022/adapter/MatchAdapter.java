@@ -95,6 +95,8 @@ public class MatchAdapter extends BaseAdapter {
         return view;
     }
 
+
+
     private void setColorTeamWin(ViewHolder holder, Match match) {
         if (match.getHomeScore() > match.getAwayScore()) {
             holder.txtTenDoiNha.setTextColor(context.getResources().getColor(R.color.picton_blue));
