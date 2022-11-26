@@ -139,7 +139,7 @@ public class Match implements Serializable {
         }
     }
 
-    private void sortListGoal() {
+    public void sortListGoal() {
         Collections.sort(this.goalList);
     }
 }

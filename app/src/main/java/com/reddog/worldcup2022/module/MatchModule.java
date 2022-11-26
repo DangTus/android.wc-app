@@ -75,6 +75,7 @@ public class MatchModule {
                 goalList = addListGoal(obj, goalList, "homeG");
                 goalList = addListGoal(obj, goalList, "awayG");
                 match.setGoalList(goalList);
+                match.sortListGoal();
 
                 match.setDate(obj.getString("date"));
                 match.setTime(obj.getString("time"));

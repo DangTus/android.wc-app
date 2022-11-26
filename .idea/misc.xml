@@ -44,7 +44,7 @@
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/dialog_setting.xml" value="0.25" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/fragment_group_stage.xml" value="0.25" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/fragment_group_state.xml" value="0.25" />
-        <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/fragment_home.xml" value="0.2222222222222222" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/fragment_knockout.xml" value="0.25" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/fragment_knockout_stage.xml" value="0.25" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/item_category.xml" value="0.25" />
@@ -55,8 +55,10 @@
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/layout_button_stage.xml" value="0.25" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/layout_button_stage_checked.xml" value="0.25" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/layout_header_nav.xml" value="0.24895833333333334" />
+        <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/layout_listmatch.xml" value="0.2222222222222222" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/row_bang_dau.xml" value="0.25" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/row_goal.xml" value="0.24895833333333334" />
+        <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/row_news_video.xml" value="0.2212962962962963" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/row_tran_dau.xml" value="0.25" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/layout/test.xml" value="0.24895833333333334" />
         <entry key="..\:/TU/HOC TAP/122/Android/wc/android.wc-app/app/src/main/res/menu/menu_nav.xml" value="0.24895833333333334" />
